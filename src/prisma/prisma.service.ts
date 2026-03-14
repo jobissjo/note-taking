@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { Injectable, OnModuleInit, INestApplication } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client/index.js';
 import { PrismaPg } from '@prisma/adapter-pg';
@@ -6,7 +7,24 @@ import pg from 'pg';
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit {
   constructor() {
-    const pool = new pg.Pool({ connectionString: process.env.DATABASE_URL });
+    const url = process.env.DATABASE_URL;
+    if (!url) {
+      throw new Error('DATABASE_URL is not defined in environment variables');
+    }
+    
+    // Parse the connection string to ensure all parts are explicitly passed to pg.Pool
+    // This helps avoid issues where the connectionString parser might fail
+    const dbUrl = new URL(url);
+    const pool = new pg.Pool({
+      user: decodeURIComponent(dbUrl.username),
+      password: decodeURIComponent(dbUrl.password),
+      host: dbUrl.hostname,
+      port: parseInt(dbUrl.port || '5432'),
+      database: decodeURIComponent(dbUrl.pathname.substring(1)),
+      ssl: false, // Explicitly disable SSL for local dev if not specified
+    });
+
+    console.log(`PrismaService: Initialized pool for ${dbUrl.hostname}:${dbUrl.port || '5432'}`);
     const adapter = new PrismaPg(pool);
     super({ adapter });
   }
