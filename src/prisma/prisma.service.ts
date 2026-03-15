@@ -21,7 +21,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit {
       host: dbUrl.hostname,
       port: parseInt(dbUrl.port || '5432'),
       database: decodeURIComponent(dbUrl.pathname.substring(1)),
-      ssl: false, // Explicitly disable SSL for local dev if not specified
+      ssl: url.includes('sslmode=require') ? true : false,
     });
 
     console.log(`PrismaService: Initialized pool for ${dbUrl.hostname}:${dbUrl.port || '5432'}`);
