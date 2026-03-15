@@ -7,7 +7,8 @@ import { WorkspaceModule } from './workspace/workspace.module.js';
 import { NotebookModule } from './notebook/notebook.module.js';
 import { NotesModule } from './notes/notes.module.js';
 import { PrismaModule } from './prisma/prisma.module.js';
-
+import { DiaryModule } from './diary/diary.module.js';
+import { DiaryEntryModule } from './diary-entry/diary-entry.module.js';
 
 @Module({
   imports: [
@@ -17,8 +18,11 @@ import { PrismaModule } from './prisma/prisma.module.js';
     WorkspaceModule,
     NotebookModule,
     NotesModule,
+    DiaryModule,
+    DiaryEntryModule,
   ],
   controllers: [AppController],
+
   providers: [AppService],
 })
 export class AppModule {}

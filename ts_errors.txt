@@ -1,0 +1,14 @@
+src/app.controller.spec.ts(2,31): error TS2307: Cannot find module './app.controller' or its corresponding type declarations.
+src/app.controller.spec.ts(3,28): error TS2307: Cannot find module './app.service' or its corresponding type declarations.
+src/diary-entry/diary-entry.service.ts(25,24): error TS2339: Property 'diaryEntry' does not exist on type 'PrismaService'.
+src/diary-entry/diary-entry.service.ts(34,24): error TS2339: Property 'diaryEntry' does not exist on type 'PrismaService'.
+src/diary-entry/diary-entry.service.ts(41,37): error TS2339: Property 'diaryEntry' does not exist on type 'PrismaService'.
+src/diary-entry/diary-entry.service.ts(67,24): error TS2339: Property 'diaryEntry' does not exist on type 'PrismaService'.
+src/diary-entry/diary-entry.service.ts(76,24): error TS2339: Property 'diaryEntry' does not exist on type 'PrismaService'.
+src/diary/diary.service.ts(11,24): error TS2339: Property 'diary' does not exist on type 'PrismaService'.
+src/diary/diary.service.ts(20,24): error TS2339: Property 'diary' does not exist on type 'PrismaService'.
+src/diary/diary.service.ts(26,37): error TS2339: Property 'diary' does not exist on type 'PrismaService'.
+src/diary/diary.service.ts(44,24): error TS2339: Property 'diary' does not exist on type 'PrismaService'.
+src/diary/diary.service.ts(53,24): error TS2339: Property 'diary' does not exist on type 'PrismaService'.
+test/app.e2e-spec.ts(4,21): error TS2307: Cannot find module 'supertest/types' or its corresponding type declarations.
+test/app.e2e-spec.ts(5,27): error TS2307: Cannot find module './../src/app.module' or its corresponding type declarations.

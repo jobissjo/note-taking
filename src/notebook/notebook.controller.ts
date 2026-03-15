@@ -31,6 +31,13 @@ export class NotebookController {
     return this.notebookService.findAll(req.user.userId, workspaceId);
   }
 
+  @Get('notebooks/:id')
+  @ApiOperation({ summary: 'Get a specific notebook by ID' })
+  @ApiOkResponse({ description: 'The notebook details', type: NotebookEntity })
+  findOne(@Request() req, @Param('id') id: string) {
+    return this.notebookService.findOne(req.user.userId, id);
+  }
+
   @Patch('notebooks/:id')
   @ApiOperation({ summary: 'Update a notebook' })
   @ApiOkResponse({ description: 'The updated notebook', type: NotebookEntity })
