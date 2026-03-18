@@ -7,6 +7,8 @@ import { AuthController } from './auth.controller.js';
 import { JwtStrategy } from './jwt.strategy.js';
 
 
+import { GoogleStrategy } from './google.strategy.js';
+
 @Module({
   imports: [
     UsersModule,
@@ -16,7 +18,7 @@ import { JwtStrategy } from './jwt.strategy.js';
       signOptions: { expiresIn: '1d' },
     }),
   ],
-  providers: [AuthService, JwtStrategy],
+  providers: [AuthService, JwtStrategy, GoogleStrategy],
   controllers: [AuthController],
   exports: [AuthService],
 })
