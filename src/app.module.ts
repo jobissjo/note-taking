@@ -10,6 +10,8 @@ import { NotesModule } from './notes/notes.module.js';
 import { PrismaModule } from './prisma/prisma.module.js';
 import { DiaryModule } from './diary/diary.module.js';
 import { DiaryEntryModule } from './diary-entry/diary-entry.module.js';
+import { StoriesModule } from './stories/stories.module.js';
+import { DashboardModule } from './dashboard/dashboard.module.js';
 
 @Module({
   imports: [
@@ -21,6 +23,8 @@ import { DiaryEntryModule } from './diary-entry/diary-entry.module.js';
     NotesModule,
     DiaryModule,
     DiaryEntryModule,
+    StoriesModule,
+    DashboardModule,
   ],
   controllers: [AppController],
 
