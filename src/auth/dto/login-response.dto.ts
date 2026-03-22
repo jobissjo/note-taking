@@ -12,6 +12,9 @@ export class UserEntity {
 
   @ApiProperty()
   createdAt: Date;
+
+  @ApiProperty({ example: true })
+  hasPin: boolean;
 }
 
 export class LoginResponseDto {

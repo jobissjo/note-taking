@@ -11,4 +11,8 @@ export class CreateDiaryDto {
   @IsString()
   @IsOptional()
   description?: string;
+
+  @ApiProperty({ example: false, required: false })
+  @IsOptional()
+  isLocked?: boolean;
 }

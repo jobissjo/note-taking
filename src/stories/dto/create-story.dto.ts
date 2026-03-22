@@ -11,4 +11,8 @@ export class CreateStoryDto {
   @IsObject()
   @ApiProperty({ example: { type: 'doc', content: [] } })
   content: any;
+
+  @ApiProperty({ example: false, required: false })
+  @IsOptional()
+  isLocked?: boolean;
 }

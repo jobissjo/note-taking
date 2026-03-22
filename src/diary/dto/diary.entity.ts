@@ -18,4 +18,7 @@ export class DiaryEntity {
 
   @ApiProperty()
   updatedAt: Date;
+
+  @ApiProperty({ example: false })
+  isLocked: boolean;
 }

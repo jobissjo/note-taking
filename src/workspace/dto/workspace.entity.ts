@@ -18,4 +18,7 @@ export class WorkspaceEntity {
 
   @ApiProperty()
   updatedAt: Date;
+
+  @ApiProperty({ example: false })
+  isLocked: boolean;
 }

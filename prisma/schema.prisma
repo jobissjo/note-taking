@@ -19,6 +19,7 @@ model User {
   workspaces Workspace[]
   diaries    Diary[]
   stories    Story[]
+  pin       String?     // Hashed 4-digit or longer PIN
 }
 
 model Workspace {
@@ -29,6 +30,7 @@ model Workspace {
   owner       User       @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
+  isLocked    Boolean    @default(false)
   notebooks   Notebook[]
 }
 
@@ -60,6 +62,7 @@ model Diary {
   owner       User         @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
+  isLocked    Boolean      @default(false)
   entries     DiaryEntry[]
 }
 
@@ -82,4 +85,5 @@ model Story {
   createdBy   User     @relation(fields: [createdById], references: [id], onDelete: Cascade)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  isLocked    Boolean  @default(false)
 }

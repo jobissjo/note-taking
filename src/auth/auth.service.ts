@@ -47,6 +47,7 @@ export class AuthService {
         id: user.id,
         email: user.email,
         name: user.name,
+        hasPin: !!user.pin,
       },
     };
   }
@@ -78,7 +79,28 @@ export class AuthService {
         id: user.id,
         email: user.email,
         name: user.name,
+        hasPin: !!user.pin,
       },
     };
+  }
+
+  async setPin(userId: string, pin: string) {
+    const hashedPin = await bcrypt.hash(pin, 10);
+    await this.usersService.updateById(userId, { pin: hashedPin });
+    return { message: 'PIN set successfully' };
+  }
+
+  async verifyPin(userId: string, pin: string) {
+    const user = await this.usersService.findById(userId);
+    if (!user || !user.pin) {
+      throw new UnauthorizedException('PIN not set');
+    }
+
+    const isPinValid = await bcrypt.compare(pin, user.pin);
+    if (!isPinValid) {
+      throw new UnauthorizedException('Invalid PIN');
+    }
+
+    return { success: true };
   }
 }

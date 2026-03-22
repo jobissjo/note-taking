@@ -5,6 +5,9 @@ import { RegisterDto } from './dto/register.dto.js';
 import { LoginDto } from './dto/login.dto.js';
 import { LoginResponseDto, UserEntity } from './dto/login-response.dto.js';
 import { AuthService } from './auth.service.js';
+import { JwtAuthGuard } from './jwt-auth.guard.js';
+import { SetPinDto } from './dto/set-pin.dto.js';
+import { VerifyPinDto } from './dto/verify-pin.dto.js';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -39,5 +42,21 @@ export class AuthController {
     // Redirect to frontend with token
     const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:4200';
     res.redirect(`${frontendUrl}/auth/callback?token=${result.accessToken}`);
+  }
+
+  @Post('set-pin')
+  @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'Set or update user PIN' })
+  @ApiOkResponse({ description: 'PIN successfully set' })
+  async setPin(@Req() req, @Body() setPinDto: SetPinDto) {
+    return this.authService.setPin(req.user.userId, setPinDto.pin);
+  }
+
+  @Post('verify-pin')
+  @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'Verify user PIN' })
+  @ApiOkResponse({ description: 'PIN verified' })
+  async verifyPin(@Req() req, @Body() verifyPinDto: VerifyPinDto) {
+    return this.authService.verifyPin(req.user.userId, verifyPinDto.pin);
   }
 }
