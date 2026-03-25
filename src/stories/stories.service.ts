@@ -16,9 +16,12 @@ export class StoriesService {
     });
   }
 
-  async findAll(userId: string) {
+  async findAll(userId: string, showHidden: boolean = false) {
     return this.prisma.story.findMany({
-      where: { createdById: userId },
+      where: {
+        createdById: userId,
+        isHidden: showHidden ? true : false,
+      },
       orderBy: { createdAt: 'desc' },
     });
   }

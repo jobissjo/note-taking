@@ -16,9 +16,12 @@ export class DiaryService {
     });
   }
 
-  async findAll(userId: string) {
+  async findAll(userId: string, showHidden: boolean = false) {
     return this.prisma.diary.findMany({
-      where: { ownerId: userId },
+      where: {
+        ownerId: userId,
+        isHidden: showHidden ? true : false,
+      },
     });
   }
 

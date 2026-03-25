@@ -1,17 +1,21 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request, Query } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiQuery } from '@nestjs/swagger';
 import { StoriesService } from './stories.service.js';
 import { CreateStoryDto } from './dto/create-story.dto.js';
 import { UpdateStoryDto } from './dto/update-story.dto.js';
 import { StoryEntity } from './dto/story.entity.js';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard.js';
+import { AuthService } from '../auth/auth.service.js';
 
 @ApiTags('stories')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
 @Controller('stories')
 export class StoriesController {
-  constructor(private readonly storiesService: StoriesService) {}
+  constructor(
+    private readonly storiesService: StoriesService,
+    private readonly authService: AuthService,
+  ) {}
 
   @Post()
   @ApiOperation({ summary: 'Create a new story' })
@@ -22,9 +26,14 @@ export class StoriesController {
 
   @Get()
   @ApiOperation({ summary: 'List all stories of the current user' })
+  @ApiQuery({ name: 'pin', required: false, description: 'User settings PIN to see hidden items' })
   @ApiOkResponse({ description: 'List of stories', type: StoryEntity, isArray: true })
-  findAll(@Request() req) {
-    return this.storiesService.findAll(req.user.userId);
+  async findAll(@Request() req, @Query('pin') pin?: string) {
+    if (pin) {
+      await this.authService.verifyPin(req.user.userId, pin);
+      return this.storiesService.findAll(req.user.userId, true);
+    }
+    return this.storiesService.findAll(req.user.userId, false);
   }
 
   @Get(':id')

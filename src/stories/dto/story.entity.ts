@@ -21,4 +21,7 @@ export class StoryEntity {
 
   @ApiProperty({ example: false })
   isLocked: boolean;
+
+  @ApiProperty({ example: false })
+  isHidden: boolean;
 }

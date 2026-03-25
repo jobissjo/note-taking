@@ -1,17 +1,21 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiCreatedResponse, ApiOkResponse } from '@nestjs/swagger';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Request, Query } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiCreatedResponse, ApiOkResponse, ApiQuery } from '@nestjs/swagger';
 import { WorkspaceService } from './workspace.service.js';
 import { CreateWorkspaceDto } from './dto/create-workspace.dto.js';
 import { UpdateWorkspaceDto } from './dto/update-workspace.dto.js';
 import { WorkspaceEntity } from './dto/workspace.entity.js';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard.js';
+import { AuthService } from '../auth/auth.service.js';
 
 @ApiTags('workspaces')
 @ApiBearerAuth()
 @UseGuards(JwtAuthGuard)
 @Controller('workspaces')
 export class WorkspaceController {
-  constructor(private readonly workspaceService: WorkspaceService) {}
+  constructor(
+    private readonly workspaceService: WorkspaceService,
+    private readonly authService: AuthService,
+  ) {}
 
   @Post()
   @ApiOperation({ summary: 'Create a new workspace' })
@@ -22,9 +26,14 @@ export class WorkspaceController {
 
   @Get()
   @ApiOperation({ summary: 'List all workspaces for the authenticated user' })
+  @ApiQuery({ name: 'pin', required: false, description: 'User settings PIN to see hidden items' })
   @ApiOkResponse({ description: 'List of workspaces', type: WorkspaceEntity, isArray: true })
-  findAll(@Request() req) {
-    return this.workspaceService.findAll(req.user.userId);
+  async findAll(@Request() req, @Query('pin') pin?: string) {
+    if (pin) {
+      await this.authService.verifyPin(req.user.userId, pin);
+      return this.workspaceService.findAll(req.user.userId, true);
+    }
+    return this.workspaceService.findAll(req.user.userId, false);
   }
 
   @Get(':id')

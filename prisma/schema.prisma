@@ -31,6 +31,7 @@ model Workspace {
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @updatedAt
   isLocked    Boolean    @default(false)
+  isHidden    Boolean    @default(false)
   notebooks   Notebook[]
 }
 
@@ -63,6 +64,7 @@ model Diary {
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
   isLocked    Boolean      @default(false)
+  isHidden    Boolean      @default(false)
   entries     DiaryEntry[]
 }
 
@@ -86,4 +88,6 @@ model Story {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   isLocked    Boolean  @default(false)
+  isHidden    Boolean  @default(false)
 }
+
