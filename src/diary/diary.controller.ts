@@ -27,9 +27,10 @@ export class DiaryController {
   @Get()
   @ApiOperation({ summary: 'List all diaries for the authenticated user' })
   @ApiQuery({ name: 'pin', required: false, description: 'User settings PIN to see hidden items' })
+  @ApiQuery({ name: 'hidden', required: false, description: 'Show hidden items' })
   @ApiOkResponse({ description: 'List of diaries', type: DiaryEntity, isArray: true })
-  async findAll(@Request() req, @Query('pin') pin?: string) {
-    if (pin) {
+  async findAll(@Request() req, @Query('pin') pin?: string, @Query('hidden') hidden?: boolean) {
+    if (pin && hidden) {
       await this.authService.verifyPin(req.user.userId, pin);
       return this.diaryService.findAll(req.user.userId, true);
     }
