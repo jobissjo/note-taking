@@ -48,6 +48,7 @@ export class AuthService {
         email: user.email,
         name: user.name,
         hasPin: !!user.pin,
+        autoSaveEnabled: user.autoSaveEnabled,
       },
     };
   }
@@ -80,6 +81,7 @@ export class AuthService {
         email: user.email,
         name: user.name,
         hasPin: !!user.pin,
+        autoSaveEnabled: user.autoSaveEnabled,
       },
     };
   }
@@ -102,5 +104,10 @@ export class AuthService {
     }
 
     return { success: true };
+  }
+
+  async updateAutoSave(userId: string, enabled: boolean) {
+    await this.usersService.updateById(userId, { autoSaveEnabled: enabled });
+    return { success: true, autoSaveEnabled: enabled };
   }
 }

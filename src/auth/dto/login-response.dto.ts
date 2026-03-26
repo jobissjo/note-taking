@@ -15,6 +15,9 @@ export class UserEntity {
 
   @ApiProperty({ example: true })
   hasPin: boolean;
+
+  @ApiProperty({ example: true })
+  autoSaveEnabled: boolean;
 }
 
 export class LoginResponseDto {

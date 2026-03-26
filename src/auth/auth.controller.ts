@@ -9,6 +9,8 @@ import { JwtAuthGuard } from './jwt-auth.guard.js';
 import { SetPinDto } from './dto/set-pin.dto.js';
 import { VerifyPinDto } from './dto/verify-pin.dto.js';
 
+import { UpdateAutoSaveDto } from './dto/update-autosave.dto.js';
+
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {
@@ -58,5 +60,13 @@ export class AuthController {
   @ApiOkResponse({ description: 'PIN verified' })
   async verifyPin(@Req() req, @Body() verifyPinDto: VerifyPinDto) {
     return this.authService.verifyPin(req.user.userId, verifyPinDto.pin);
+  }
+
+  @Post('auto-save')
+  @UseGuards(JwtAuthGuard)
+  @ApiOperation({ summary: 'Toggle auto-save' })
+  @ApiOkResponse({ description: 'Auto-save setting updated' })
+  async updateAutoSave(@Req() req, @Body() body: UpdateAutoSaveDto) {
+    return this.authService.updateAutoSave(req.user.userId, body.enabled);
   }
 }
