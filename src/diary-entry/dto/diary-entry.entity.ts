@@ -21,4 +21,7 @@ export class DiaryEntryEntity {
 
   @ApiProperty()
   updatedAt: Date;
+
+  @ApiProperty({ example: false })
+  isPublished: boolean;
 }

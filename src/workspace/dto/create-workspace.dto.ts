@@ -19,4 +19,8 @@ export class CreateWorkspaceDto {
   @ApiProperty({ example: false, required: false })
   @IsOptional()
   isHidden?: boolean;
+
+  @ApiProperty({ example: false, required: false })
+  @IsOptional()
+  isPublic?: boolean;
 }

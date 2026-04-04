@@ -77,4 +77,41 @@ export class DiaryEntryService {
       where: { id },
     });
   }
+
+  async findAllPublic(params?: { diaryId?: string; take?: number; skip?: number }) {
+    return this.prisma.diaryEntry.findMany({
+      where: {
+        isPublished: true,
+        ...(params?.diaryId ? { diaryId: params.diaryId } : {}),
+        diary: {
+          isPublic: true,
+          isHidden: false,
+          isLocked: false,
+        },
+      },
+      orderBy: { date: 'desc' },
+      take: params?.take,
+      skip: params?.skip,
+    });
+  }
+
+  async findOnePublic(id: string) {
+    const entry = await this.prisma.diaryEntry.findFirst({
+      where: {
+        id,
+        isPublished: true,
+        diary: {
+          isPublic: true,
+          isHidden: false,
+          isLocked: false,
+        },
+      },
+    });
+
+    if (!entry) {
+      throw new NotFoundException(`Diary entry with ID ${id} not found`);
+    }
+
+    return entry;
+  }
 }

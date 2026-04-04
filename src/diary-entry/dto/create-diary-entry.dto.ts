@@ -16,4 +16,8 @@ export class CreateDiaryEntryDto {
   @IsObject()
   @IsNotEmpty()
   content: any;
+
+  @ApiProperty({ example: false, required: false })
+  @IsOptional()
+  isPublished?: boolean;
 }

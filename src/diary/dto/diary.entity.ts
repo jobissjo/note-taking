@@ -24,4 +24,7 @@ export class DiaryEntity {
 
   @ApiProperty({ example: false })
   isHidden: boolean;
+
+  @ApiProperty({ example: false })
+  isPublic: boolean;
 }

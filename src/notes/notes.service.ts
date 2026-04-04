@@ -71,4 +71,51 @@ export class NotesService {
       where: { id },
     });
   }
+
+  async findAllPublic(params?: {
+    workspaceId?: string;
+    notebookId?: string;
+    take?: number;
+    skip?: number;
+  }) {
+    return this.prisma.note.findMany({
+      where: {
+        isPublished: true,
+        ...(params?.notebookId ? { notebookId: params.notebookId } : {}),
+        notebook: {
+          ...(params?.workspaceId ? { workspaceId: params.workspaceId } : {}),
+          workspace: {
+            isPublic: true,
+            isHidden: false,
+            isLocked: false,
+          },
+        },
+      },
+      orderBy: { updatedAt: 'desc' },
+      take: params?.take,
+      skip: params?.skip,
+    });
+  }
+
+  async findOnePublic(id: string) {
+    const note = await this.prisma.note.findFirst({
+      where: {
+        id,
+        isPublished: true,
+        notebook: {
+          workspace: {
+            isPublic: true,
+            isHidden: false,
+            isLocked: false,
+          },
+        },
+      },
+    });
+
+    if (!note) {
+      throw new NotFoundException(`Note with ID ${id} not found`);
+    }
+
+    return note;
+  }
 }

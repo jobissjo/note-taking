@@ -33,6 +33,7 @@ model Workspace {
   updatedAt   DateTime   @updatedAt
   isLocked    Boolean    @default(false)
   isHidden    Boolean    @default(false)
+  isPublic    Boolean    @default(false)
   notebooks   Notebook[]
 }
 
@@ -54,6 +55,7 @@ model Note {
   notebook   Notebook @relation(fields: [notebookId], references: [id], onDelete: Cascade)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+  isPublished Boolean  @default(false)
 }
 
 model Diary {
@@ -66,6 +68,7 @@ model Diary {
   updatedAt   DateTime     @updatedAt
   isLocked    Boolean      @default(false)
   isHidden    Boolean      @default(false)
+  isPublic    Boolean      @default(false)
   entries     DiaryEntry[]
 }
 
@@ -78,6 +81,7 @@ model DiaryEntry {
   diary     Diary    @relation(fields: [diaryId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  isPublished Boolean @default(false)
 }
 
 model Story {
@@ -90,5 +94,8 @@ model Story {
   updatedAt   DateTime @updatedAt
   isLocked    Boolean  @default(false)
   isHidden    Boolean  @default(false)
+  isPublic    Boolean  @default(false)
+  isPublished Boolean  @default(false)
 }
+
 

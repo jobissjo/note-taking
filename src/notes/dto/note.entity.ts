@@ -18,4 +18,7 @@ export class NoteEntity {
 
   @ApiProperty()
   updatedAt: Date;
+
+  @ApiProperty({ example: false })
+  isPublished: boolean;
 }

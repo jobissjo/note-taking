@@ -19,4 +19,12 @@ export class CreateStoryDto {
   @ApiProperty({ example: false, required: false })
   @IsOptional()
   isHidden?: boolean;
+
+  @ApiProperty({ example: false, required: false })
+  @IsOptional()
+  isPublic?: boolean;
+
+  @ApiProperty({ example: false, required: false })
+  @IsOptional()
+  isPublished?: boolean;
 }

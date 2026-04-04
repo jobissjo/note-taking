@@ -58,4 +58,36 @@ export class StoriesService {
       where: { id },
     });
   }
+
+  async findAllPublic(params?: { take?: number; skip?: number }) {
+    return this.prisma.story.findMany({
+      where: {
+        isPublic: true,
+        isPublished: true,
+        isHidden: false,
+        isLocked: false,
+      },
+      orderBy: { updatedAt: 'desc' },
+      take: params?.take,
+      skip: params?.skip,
+    });
+  }
+
+  async findOnePublic(id: string) {
+    const story = await this.prisma.story.findFirst({
+      where: {
+        id,
+        isPublic: true,
+        isPublished: true,
+        isHidden: false,
+        isLocked: false,
+      },
+    });
+
+    if (!story) {
+      throw new NotFoundException(`Story with ID ${id} not found`);
+    }
+
+    return story;
+  }
 }

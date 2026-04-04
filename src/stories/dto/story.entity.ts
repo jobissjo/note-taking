@@ -24,4 +24,10 @@ export class StoryEntity {
 
   @ApiProperty({ example: false })
   isHidden: boolean;
+
+  @ApiProperty({ example: false })
+  isPublic: boolean;
+
+  @ApiProperty({ example: false })
+  isPublished: boolean;
 }
